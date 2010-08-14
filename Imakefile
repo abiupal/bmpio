@@ -1,0 +1,14 @@
+LOCAL_LIBRARIES = -lm 
+# CDEBUGFLAGS     = -O3
+CDEBUGFLAGS = -g -Wunused
+# CCOPTIONS = -DSYSV -DSVR4
+EXTRA_LDOPTIONS =
+EXTRA_LIBRARIES =
+#CC = cc
+CC = llvm-gcc
+
+OBJS = 		bmpio.o
+
+SRCS = 		bmpio.c
+
+ComplexProgramTarget(bmpio)
