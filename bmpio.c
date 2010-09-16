@@ -27,20 +27,6 @@ void chk_cpu()
 	CPU = 0;
 	
 	CPU = *((char *)&i);
-	/*
-	int inf, i = 1;
-	
-	if((inf = creat("tmp.tmp",0x1b6)) >= 0)
-	{
-		write(inf,&i,sizeof(int)) ;
-		close(inf) ;
-		if((inf = open("tmp.tmp",O_RDONLY)) >= 0)
-		{ 	
-			read(inf,&CPU,1) ;
-		}
-		unlink("tmp.tmp") ;
-	}
-	*/
 }
 
 long intel_ltol(long src)
@@ -48,7 +34,7 @@ long intel_ltol(long src)
 	long	dst ;
 
 	if(CPU) { return(src) ; }
-	dst = ((src<<24)&0xff000000)+((src<<8)&0xff0000)+((src>>8)&0xff00)+((src>>24)&0xff) ;
+	dst = ((src<<16)&0xff000000)+((src<<8)&0xff0000)+((src>>8)&0xff00)+((src>>16)&0xff) ;
 	return(dst) ;
  }
 
@@ -137,64 +123,36 @@ int main( int argc, char *argv[] )
 		/* インデックス作成
 		// FileHeader */
 		bfh.bfType = intel_stos( 0x4d42 );
-		i = sizeof(bfh) + sizeof(bih);
+		i = 14 + 40;
+		fprintf( stderr, "i:%d\n", i );
 		if( cbit == 8 ) i += sizeof(rgb);
-		fprintf( stderr, "i:0x%4x\n",i);
 		i = intel_ltol( i );
-		fprintf( stderr, "bfOffBits:0x%04x, >>16:0x%04x, >>00x%04x\n",i,(i >>16),i &0xffff );
-		if(!CPU)
-		{
-			bfh.bfOffBits[0] = (i >> 16) & 0xffff ;
-			bfh.bfOffBits[1] = i & 0xffff ;
-		}
-		else
-		{
-			bfh.bfOffBits[0] = i & 0xffff ;
-			bfh.bfOffBits[1] = (i >> 16) &0xffff ;
-		}
-		fprintf( stderr, "[0]:0x%04x, [1]:0x%04x\n",bfh.bfOffBits[0],bfh.bfOffBits[1]);
-
+		bfh.bfOffBits = i;
 		
 		if( 0 < tmp.pal && tmp.pal <= 256 )
-		{
-			i += ((tmp.w +3) & ~3) * tmp.h;
 			cbit = 8;
-		}
-		else if( tmp.pal < 0 )
-		{
-			i += (((tmp.w * 3) +3) & ~3) * tmp.h;
-			cbit = 24;
-		}
-		i = intel_ltol( i );
-		if(!CPU)
-		{
-			bfh.bfSize[0] = (i >> 16) ;
-			bfh.bfSize[1] = i & 0xffff ;
-		}
 		else
-		{
-			bfh.bfSize[0] = i & 0xffff ;
-			bfh.bfSize[1] = (i >> 16);
-		}
-
+			cbit = 24;
+		
+		i += (((tmp.w * (cbit / 8)) +3) & ~3) * tmp.h;
+		i = intel_ltol( i );
+		bfh.bfSize = i;
+		
 		/* InfoHeader */
-		bih.biSize = intel_ltol( sizeof(bih) );
+		bih.biSize = intel_ltol( 40 );
 		bih.biWidth = intel_ltol( tmp.w );
 		bih.biHeight = intel_ltol( tmp.h );
 		bih.biPlanes = intel_stos( 1 );
 		bih.biBitCount = intel_stos( cbit );
-		i = sizeof(bfh);
-		if( fwrite( &bfh, 1, i, fp ) != i )
-		{
-			perror( "fwrite(bfh):" );
-			return 1;
-		}
-		i = sizeof(bih);
-		if( fwrite( &bih, 1, i, fp ) != i )
-		{
-			perror( "fwrite(bih):" );
-			return 1;
-		}
+		i = 14;
+		fwrite( &bfh.bfType, 1, 2, fp );
+		fwrite( &bfh.bfSize, 1, 4, fp );
+		fwrite( &bfh.bfReserved1, 2, 2, fp );
+		fwrite( &bfh.bfOffBits, 1, 4, fp );
+		
+		fwrite( &bih.biSize, 3, 4, fp );
+		fwrite( &bih.biPlanes, 2, 2, fp );
+		fwrite( &bih.biCompression, 6, 4, fp );
 		/* パレット作成 */
 		if( cbit == 8 )
 		{
@@ -216,23 +174,41 @@ int main( int argc, char *argv[] )
 				return 1;
 			}
 		}
+		else if( cbit == 24 )
+		{
+		}
 		else
 		{
-			fprintf( stderr, "Palette is 256 colors over\n" );
+			fprintf( stderr, "Palette is not supported!! cbit:%d\n",cbit );
 			return 1;
 		}
 		
 		/* データ書き出し */
 		tmp.cnt = tmp.cntw = 0;
 		tmp.max = tmp.w - tmp.x;
-		for( ; (i = fgetc( stdin )) != EOF;  )
+		for( ; (i = fgetc( stdin )) != EOF; )
 		{
-			if( tmp.x <= tmp.cnt && tmp.cnt < tmp.max )
+			if( cbit == 8 )
 			{
-				fputc( i, fp );
+				if( tmp.x <= tmp.cnt && tmp.cnt < tmp.max )
+					fputc( i, fp );
+			}
+			else
+			{
+				switch( tmp.cnt % 3 )
+				{
+				  case 0: rgb[0].rgbRed = (unsigned char)i; break;
+				  case 1: rgb[0].rgbGreen = (unsigned char)i; break;
+				  case 2: 
+					/* rgb[0].rgbBlue = (unsigned char)i; */
+					fputc( rgb[0].rgbRed, fp );
+					fputc( rgb[0].rgbGreen, fp );
+					fputc( i, fp );
+					break;
+				}
 			}
 			tmp.cnt++;
-			if( tmp.cnt == tmp.w )
+			if( tmp.cnt == tmp.w * (cbit / 8) )
 			{
 				if( tmp.w % 4 )
 				{
@@ -272,18 +248,7 @@ int main( int argc, char *argv[] )
 			fprintf( stderr, "path:%s\n", path );
 			return 1;
 		}
-		if(!CPU)
-		{
-			bfh.bfOffBits[0] = intel_stos( bfh.bfOffBits[0] );
-			bfh.bfOffBits[1] = intel_stos( bfh.bfOffBits[1] );
-			i   = bfh.bfOffBits[0] ;
-			i  += bfh.bfOffBits[1] << 16 ;
-		}
-		else
-		{
-			i  = bfh.bfOffBits[1] ;
-			i += bfh.bfOffBits[0] << 16 ;
-		}
+		bfh.bfOffBits = intel_ltol( bfh.bfOffBits );
 		offset = i;
 		
 		/* InfoHeader */

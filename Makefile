@@ -2,22 +2,24 @@
 # $Xorg: imake.c,v 1.6 2001/02/09 02:03:15 xorgcvs Exp $
 
 # ----------------------------------------------------------------------
-# Makefile generated from "Imake.tmpl" and </tmp/IIf.SVIytL>
+# Makefile generated from "Imake.tmpl" and </tmp/IIf.nvKpIi>
 # $Xorg: Imake.tmpl,v 1.4 2000/08/17 19:41:46 cpqbld Exp $
+# $XdotOrg: util/cf/Imake.tmpl,v 1.17 2006/04/15 15:55:25 herrb Exp $
 #
 #
 #
 #
-# $XFree86: xc/config/cf/Imake.tmpl,v 3.156 2004/01/12 21:43:18 herrb Exp $
+# $XFree86: xc/config/cf/Imake.tmpl,v 3.155 2003/12/24 18:58:41 dickey Exp $
 # ----------------------------------------------------------------------
 
 all::
 
 .SUFFIXES: .i
 
+# $XdotOrg: util/cf/Imake.cf,v 1.12 2005/11/08 06:33:24 jkj Exp $
 # $Xorg: Imake.cf,v 1.4 2000/08/17 19:41:45 cpqbld Exp $
 
-# $XFree86: xc/config/cf/Imake.cf,v 3.89 2004/01/25 01:12:20 dawes Exp $
+# $XFree86: xc/config/cf/Imake.cf,v 3.88 2003/12/16 21:30:21 herrb Exp $
 
 # -----------------------------------------------------------------------
 # site-specific configuration parameters that need to come before
@@ -25,26 +27,31 @@ all::
 
 # site:  $TOG: site.sample /main/r64_final/1 1998/02/05 16:28:49 kaleb $
 
-# site:  $XFree86: xc/config/cf/site.def,v 3.25 2002/02/27 00:51:12 dawes Exp $
+# site:  $XFree86: xc/config/cf/site.def,v 3.24 2000/06/25 20:17:29 dawes Exp $
 
-# $XFree86: xc/config/cf/xf86site.def,v 3.187 2003/09/06 23:38:04 dawes Exp $
+# $XFree86: xc/config/cf/xf86site.def,v 3.186 2003/06/25 18:06:22 eich Exp $
 
 # ----------------------------------------------------------------------
 # platform-specific configuration parameters - edit darwin.cf to change
 
-# platform:  $XFree86: xc/config/cf/darwin.cf,v 1.51 2004/02/11 00:30:27 torrey Exp $
+# $XdotOrg: util/cf/darwin.cf,v 1.8 2005/04/01 01:22:07 torrey Exp $
+# platform:  $XFree86: xc/config/cf/darwin.cf,v 1.50 2004/01/20 23:54:50 torrey Exp $
 
-# operating system:  Darwin (8.11.1)
+# operating system:  Darwin (10.4.0)
 
    PROJ_BUILD = xcodebuild
 
-XPLUGIN_LIB = $(XPLUGIN_LIBDIR) -lXplugin
+   XPLIBDIR = /usr/lib
+   XPINCDIR = $(SERVERSRC)/hw/darwin/quartz/xpr
 
-# $XFree86: xc/config/cf/darwinLib.rules,v 1.9 2003/10/11 09:40:12 herrb Exp $
+# $XFree86: xc/config/cf/darwinLib.rules,v 1.8 2003/10/09 22:43:18 herrb Exp $
 
-# $XFree86: xc/config/cf/xfree86.cf,v 3.467 2004/01/28 01:47:26 dawes Exp $
+# $XdotOrg: util/cf/xorg.cf,v 1.53 2005/10/03 16:08:44 alanc Exp $
 
 # $Xorg: xfree86.cf,v 1.4 2000/08/17 19:41:49 cpqbld Exp $
+
+XORG_VERSION_CURRENT = (((6) * 10000000) + ((8) * 100000) + ((99) * 1000) + 903)
+RELEASE_VERSION = RELEASE-1
 
 DRIVERSDKDIR = $(USRLIBDIR)/Server
 DRIVERSDKMODULEDIR = $(USRLIBDIR)/Server/modules
@@ -65,7 +72,7 @@ XFREE86JAPANESEDOCDIR = $(DOCDIR)/Japanese
 
 # $Xorg: xf86.rules,v 1.3 2000/08/17 19:41:48 cpqbld Exp $
 
-# $XFree86: xc/config/cf/xf86.rules,v 3.35 2003/09/01 21:20:01 tsi Exp $
+# $XFree86: xc/config/cf/xf86.rules,v 3.34tsi Exp $
 
 # ----------------------------------------------------------------------
 # site-specific configuration parameters that go after
@@ -73,18 +80,19 @@ XFREE86JAPANESEDOCDIR = $(DOCDIR)/Japanese
 
 # site:  $TOG: site.sample /main/r64_final/1 1998/02/05 16:28:49 kaleb $
 
-# site:  $XFree86: xc/config/cf/site.def,v 3.25 2002/02/27 00:51:12 dawes Exp $
+# site:  $XFree86: xc/config/cf/site.def,v 3.24 2000/06/25 20:17:29 dawes Exp $
 
 # ---------------------------------------------------------------------
 # Imake rules for building libraries, programs, scripts, and data files
 # rules:  $Xorg: Imake.rules,v 1.3 2000/08/17 19:41:46 cpqbld Exp $
+# rules:  $XdotOrg: util/cf/Imake.rules,v 1.11 2005/11/08 06:33:24 jkj Exp $
 #
 #
 #
 #
-# rules:  $XFree86: xc/config/cf/Imake.rules,v 3.129 2004/02/16 18:14:33 dawes Exp $
+# rules:  $XFree86: xc/config/cf/Imake.rules,v 3.128 2003/11/15 03:25:17 dawes Exp $
 
-X_BYTE_ORDER = UNKNOWN_BYTE_ORDER
+X_BYTE_ORDER = X_LITTLE_ENDIAN
 
 GLIDE2INCDIR =
 
@@ -111,22 +119,22 @@ TCLIBDIR =
         MKDIRHIER = mkdir -p
           REVPATH = revpath
     EXPORTLISTGEN =
-             RMAN = rman
+             RMAN = RmanCmd
      RMANBASENAME = rman
-      RMANOPTIONS = -f HTML
+      RMANOPTIONS = RmanOptions
         CONFIGSRC = $(TOP)/config
          IMAKESRC = $(CONFIGSRC)/imake
         DEPENDSRC = $(CONFIGSRC)/util
 
-          INCROOT = /usr/X11R6/include
-        USRLIBDIR = /usr/X11R6/lib
+          INCROOT = /usr/X11/include
+        USRLIBDIR = /usr/X11/lib
            VARDIR = /var
         VARLIBDIR = $(VARDIR)/lib
   SYSTEMUSRLIBDIR = /usr/lib
   SYSTEMUSRINCDIR = /usr/include
-         SHLIBDIR = /usr/X11R6/lib
+         SHLIBDIR = /usr/X11/lib
        LINTLIBDIR = $(USRLIBDIR)/lint
-          MANPATH = /usr/X11R6/man
+          MANPATH = /usr/X11/man
     MANSOURCEPATH = $(MANPATH)/man
            MANDIR = $(MANSOURCEPATH)$(MANSUFFIX)
         LIBMANDIR = $(MANSOURCEPATH)$(LIBMANSUFFIX)
@@ -152,11 +160,11 @@ TCLIBDIR =
 
            CXXLIB = -lstdc++
 
-    CXXDEBUGFLAGS = -g -Os
+    CXXDEBUGFLAGS = -Os
 CXXDEPENDINCLUDES =
  CXXEXTRA_DEFINES =
 CXXEXTRA_INCLUDES =
-   CXXSTD_DEFINES =  -D__DARWIN__                                 -DNO_ALLOCA -DCSRG_BASED  $(CXXPROJECT_DEFINES)
+   CXXSTD_DEFINES = -D__i386__ -D__DARWIN__                                 -DNO_ALLOCA -DCSRG_BASED  $(CXXPROJECT_DEFINES)
        CXXOPTIONS =
       CXXINCLUDES = $(INCLUDES) $(TOP_INCLUDES) $(CXXEXTRA_INCLUDES)
        CXXDEFINES = $(CXXINCLUDES) $(CXXSTD_DEFINES) $(THREADS_CXXDEFINES) $(DEFINES) $(CXXEXTRA_DEFINES)
@@ -170,7 +178,7 @@ CXXEXTRA_INCLUDES =
     PREPROCESSCMD = /usr/bin/cc -E $(STD_CPP_DEFINES)
 
           INSTALL = install
-     INSTALLFLAGS = -c -o root -g wheel
+     INSTALLFLAGS = -c
 
                LD = ld
 
@@ -206,7 +214,7 @@ CXXEXTRA_INCLUDES =
    ADMINMANSUFFIX = 8
      MANSRCSUFFIX = man
      MANNEWSUFFIX = _man
-          MANDEFS = -D__apploaddir__=$(XAPPLOADDIR) -D__filemansuffix__=$(FILEMANSUFFIX) -D__libmansuffix__=$(LIBMANSUFFIX) -D__miscmansuffix__=$(MISCMANSUFFIX) -D__drivermansuffix__=$(DRIVERMANSUFFIX) -D__adminmansuffix__=$(ADMINMANSUFFIX) -D__projectroot__=$(PROJECTROOT) $(XORGMANDEFS) $(VENDORMANDEFS)
+          MANDEFS = -D__apploaddir__=$(XAPPLOADDIR) -D__appmansuffix__=$(MANSUFFIX) -D__filemansuffix__=$(FILEMANSUFFIX) -D__libmansuffix__=$(LIBMANSUFFIX) -D__miscmansuffix__=$(MISCMANSUFFIX) -D__drivermansuffix__=$(DRIVERMANSUFFIX) -D__adminmansuffix__=$(ADMINMANSUFFIX) -D__projectroot__=$(PROJECTROOT) -D__xconfigfile__=$(XCONFIGFILE) -D__xconfigdir__=$(XCONFIGDIR) -D__xlogfile__=$(XLOGFILE) -D__xservername__=$(XSERVERNAME) $(XORGMANDEFS) $(VENDORMANDEFS)
 
    COMPRESSMANCMD = gzip -n
 
@@ -237,9 +245,9 @@ MODLDCOMBINEFLAGS = -X -r
         MODRANLIB = ranlib
 
      STD_INCLUDES =
-  STD_CPP_OPTIONS =
-  STD_CPP_DEFINES =    -D__DARWIN__                                 -DNO_ALLOCA -DCSRG_BASED  $(PROJECT_DEFINES)
-      STD_DEFINES =  -D__DARWIN__                                 -DNO_ALLOCA -DCSRG_BASED  $(PROJECT_DEFINES)
+  STD_CPP_OPTIONS = -traditional -D__GNUC__
+  STD_CPP_DEFINES = -traditional -D__GNUC__ -traditional -D__GNUC__ -D__i386__ -D__DARWIN__                                 -DNO_ALLOCA -DCSRG_BASED  $(PROJECT_DEFINES)
+      STD_DEFINES = -D__i386__ -D__DARWIN__                                 -DNO_ALLOCA -DCSRG_BASED  $(PROJECT_DEFINES)
  EXTRA_LOAD_FLAGS =
   EXTRA_LDOPTIONS =
   EXTRA_LIBRARIES =
@@ -251,6 +259,9 @@ MODLDCOMBINEFLAGS = -X -r
          SHLIBDEF =
 
      SHLIBLDFLAGS = -dynamiclib $(SHLIBGLOBALSFLAGS)
+
+         NOSTDLIB = -nostdlib
+     POSTNOSTDLIB = -Wl,-Bstatic -lgcc -Wl,-Bdynamic
 
          PICFLAGS = -dynamic
 
@@ -268,9 +279,9 @@ MODLDCOMBINEFLAGS = -X -r
      INSTDATFLAGS = -m 0444
     INSTKMEMFLAGS = -m 4711
 
-      PROJECTROOT = /usr/X11R6
+      PROJECTROOT = /usr/X11
 
-      CDEBUGFLAGS = -g -Os
+      CDEBUGFLAGS = -Os
         CCOPTIONS = -Wall -Wpointer-arith -no-cpp-precomp
 
       ALLINCLUDES = $(INCLUDES) $(EXTRA_INCLUDES) $(TOP_INCLUDES) $(INSTALLED_INCLUDES) $(STD_INCLUDES)
@@ -312,26 +323,24 @@ MODLDCOMBINEFLAGS = -X -r
          IRULESRC = $(CONFIGDIR)
         IMAKE_CMD = $(IMAKE) -DUseInstalled -I$(IRULESRC) $(IMAKE_DEFINES) 		    $(IMAKE_WARNINGS)
 
-     ICONFIGFILES = $(IRULESRC)/Imake.tmpl $(IRULESRC)/X11.tmpl 			$(IRULESRC)/site.def $(IRULESRC)/$(MACROFILE) 			$(IRULESRC)/xfree86.cf $(IRULESRC)/xf86.rules $(IRULESRC)/xf86site.def $(IRULESRC)/host.def $(EXTRA_ICONFIGFILES)
+     ICONFIGFILES = $(IRULESRC)/Imake.tmpl $(IRULESRC)/X11.tmpl 			$(IRULESRC)/site.def $(IRULESRC)/$(MACROFILE) 			$(IRULESRC)/xfree86.cf $(IRULESRC)/xf86.rules $(IRULESRC)/xorgsite.def $(IRULESRC)/host.def $(EXTRA_ICONFIGFILES)
 
 # $Xorg: X11.rules,v 1.4 2000/08/17 19:41:46 cpqbld Exp $
 
-# $XFree86: xc/config/cf/X11.rules,v 1.7 2003/11/05 18:15:51 dawes Exp $
+# $XFree86: xc/config/cf/X11.rules,v 1.6 2001/01/17 16:22:31 dawes Exp $
 
 # ----------------------------------------------------------------------
 # X Window System Build Parameters and Rules
+# $XdotOrg: util/cf/X11.tmpl,v 1.54 2006/04/15 15:55:25 herrb Exp $
 # $Xorg: X11.tmpl,v 1.6 2000/08/17 19:41:46 cpqbld Exp $
 #
 #
 #
 #
-# $XFree86: xc/config/cf/X11.tmpl,v 1.249 2004/02/16 18:14:33 dawes Exp $
+# $XFree86: xc/config/cf/X11.tmpl,v 1.248 2004/02/16 04:07:37 dawes Exp $
 
-XORGRELSTRING = Release 6.6
-XORGMANNAME = X Version 11
-
-VENDORMANNAME = XFree86
-VENDORMANVERSION = `echo 4 4 0 | sed -e 's/ /./g' -e 's/^/Version\\\ /'`
+XORGRELSTRING = `echo 6 8 99 903 | sed -e 's/ /./g' -e 's/^/Version\\\ /'`
+  XORGMANNAME = X Version 11
 
 STICKY_DEFINES = -DHAS_STICKY_DIR_BIT
 
@@ -341,7 +350,7 @@ FCHOWN_DEFINES = -DHAS_FCHOWN
 # X Window System make variables; these need to be coordinated with rules
 
              XTOP = $(TOP)
-           BINDIR = /usr/X11R6/bin
+           BINDIR = /usr/X11/bin
      BUILDINCROOT = $(TOP)/exports
       BUILDINCDIR = $(BUILDINCROOT)/include
       BUILDINCTOP = ../..
@@ -350,6 +359,7 @@ FCHOWN_DEFINES = -DHAS_FCHOWN
       BUILDBINDIR = $(TOP)/exports/bin
       BUILDBINTOP = ../..
    BUILDMODULEDIR = $(BUILDLIBDIR)/modules
+     BUILDI18NDIR = $(BUILDLIBDIR)/locale
    BUILDMODULETOP = $(BUILDLIBTOP)/..
     XBUILDINCROOT = $(XTOP)/exports
      XBUILDINCDIR = $(XBUILDINCROOT)/include/X11
@@ -357,12 +367,14 @@ FCHOWN_DEFINES = -DHAS_FCHOWN
      XBUILDBINDIR = $(XBUILDINCROOT)/bin
            INCDIR = $(INCROOT)
            ADMDIR = /usr/adm
-           LIBDIR = /usr/X11R6/lib/X11
-       LIBEXECDIR = /usr/X11R6/libexec
+           LIBDIR = /usr/X11/lib/X11
+         SHAREDIR = /usr/X11/share/X11
+       LIBEXECDIR = /usr/X11/libexec
         MODULEDIR = $(USRLIBDIR)/modules
    TOP_X_INCLUDES =
+          XBINDIR = $(PROJECTROOT)/bin
 
-       INSTSRCDIR = /usr/X11R6/src
+       INSTSRCDIR = /usr/X11/src
 
         ETCX11DIR = /etc/X11
 
@@ -373,7 +385,7 @@ FCHOWN_DEFINES = -DHAS_FCHOWN
          DOCPSDIR = $(DOCDIR)/PostScript
         DOCPDFDIR = $(DOCDIR)/PDF
           FONTDIR = $(LIBDIR)/fonts
-     ENCODINGSDIR = $(FONTDIR)/encodings
+     ENCODINGSDIR = $(LIBDIR)/fonts/encodings
          XINITDIR = $(LIBDIR)/xinit
            XDMDIR = $(LIBDIR)/xdm
         XDMVARDIR = $(VARLIBDIR)/xdm
@@ -389,17 +401,17 @@ FCHOWN_DEFINES = -DHAS_FCHOWN
 
      INSTAPPFLAGS = $(INSTDATFLAGS)
 
-              RGB = $(BINDIR)/rgb
-            FONTC = $(BINDIR)/bdftopcf
-      MKFONTSCALE = $(BINDIR)/mkfontscale
-        MKFONTDIR = $(BINDIR)/mkfontdir
-      MKHTMLINDEX = $(BINDIR)/mkhtmlindex
-          UCS2ANY = $(BINDIR)/ucs2any
-      BDFTRUNCATE = $(BINDIR)/bdftruncate
+              RGB = $(XBINDIR)/rgb
+            FONTC = $(XBINDIR)/bdftopcf
+      MKFONTSCALE = $(XBINDIR)/mkfontscale
+        MKFONTDIR = $(XBINDIR)/mkfontdir
+      MKHTMLINDEX = $(XBINDIR)/mkhtmlindex
+          UCS2ANY = $(XBINDIR)/ucs2any
+      BDFTRUNCATE = $(XBINDIR)/bdftruncate
      UCSMAPPREFIX = $(FONTDIR)/util/map-
-       XCURSORGEN = $(BINDIR)/xcursorgen
+       XCURSORGEN = $(XBINDIR)/xcursorgen
 
-     HTMLINDEXCMD = $(MKHTMLINDEX)
+     HTMLINDEXCMD = HtmlIndexCmd
 
        DOCUTILSRC = $(XTOP)/doc/util
         CLIENTSRC = $(TOP)/clients
@@ -422,22 +434,39 @@ FCHOWN_DEFINES = -DHAS_FCHOWN
     FONTSERVERSRC = $(PROGRAMSRC)/xfs
        FONTINCSRC = $(XTOP)/include/fonts
         EXTINCSRC = $(XTOP)/include/extensions
-      FTSOURCEDIR = $(TOP)/extras/FreeType
-     XTTSOURCEDIR = $(TOP)/extras/X-TrueType
+      FTSOURCEDIR = FreeTypeSrcDir
+        DRMSRCDIR = $(TOP)/extras/drm
        MESASRCDIR = $(TOP)/extras/Mesa
   OGLSAMPLESRCDIR = $(TOP)/extras/ogl-sample
         PSWRAPSRC = $(XTOP)/config/pswrap
      TRANSCOMMSRC = $(LIBSRC)/xtrans
    TRANS_INCLUDES = -I$(TRANSCOMMSRC)
  CONNECTION_FLAGS = -DTCPCONN -DUNIXCONN  $(STICKY_DEFINES) $(FCHOWN_DEFINES) -DIPv6
+XTRANS_FAILDEFINES =
 
-      XORGMANDEFS = -D__xorgversion__='"$(XORGRELSTRING)" "$(XORGMANNAME)"'
+    VENDORMANNAME = X.Org
+ VENDORMANVERSION = `echo 6 8 99 903 | sed -e 's/ /./g' -e 's/^/Version\\\ /'`
+      XORGMANDEFS = -D__xorgversion__="\"$(XORGRELSTRING)\" \"$(XORGMANNAME)\""
     VENDORMANDEFS = -D__vendorversion__="$(VENDORMANVERSION) $(VENDORMANNAME)"
+       VENDORNAME = The X.Org Foundation
+  VENDORNAMESHORT = X.Org
+
+ VENDORWEBSUPPORT = http://wiki.X.Org
+
+VENDORSUPPORTDEFS = -D__VENDORDWEBSUPPORT__='"$(VENDORWEBSUPPORT)"'
+
+      XKBDEFRULES = xorg
+  XKBDEFRULESDEFS = -D__XKBDEFRULES__='"$(XKBDEFRULES)"'
+
+     XCONFIGFILE = xorg.conf
+      XCONFIGDIR = $(LIBDIR)
+        XLOGFILE = Xorg
+     XSERVERNAME = Xorg
 
        XENVLIBDIR = $(USRLIBDIR)
-   CLIENTENVSETUP = DYLD_LIBRARY_PATH=$(XENVLIBDIR)
+   CLIENTENVSETUP = DYLD_LIBRARY_PATH=$(XENVLIBDIR) XLOCALEDIR=$(BUILDLIBDIR)/locale
 
-# $XFree86: xc/config/cf/darwinLib.tmpl,v 1.20 2003/11/18 19:04:54 torrey Exp $
+# $XFree86: xc/config/cf/darwinLib.tmpl,v 1.19 2003/11/04 00:24:36 torrey Exp $
 
           XLIBSRC = $(LIBSRC)/X11
 
@@ -449,6 +478,7 @@ LINTXONLY = $(LINTLIBDIR)/llib-lX11.ln
 
       DEPXLIBONLY = $(DEPXONLYLIB)
          XLIBONLY = $(XONLYLIB)
+     LINTXONLYLIB = $(LINTXONLY)
 
       XEXTLIBSRC = $(LIBSRC)/Xext
 
@@ -533,26 +563,30 @@ XRESLIB =  -lXRes
 
 LINTXRES = $(LINTLIBDIR)/llib-lXRes.ln
 
+    DMXLIBSRC = $(LIBSRC)/dmx
+
+DEPDMXLIB = $(USRLIBDIR)/libdmx.a
+DMXLIB =  -ldmx
+
+LINTDMX = $(LINTLIBDIR)/llib-ldmx.ln
+
     DPSLIBSRC = $(LIBSRC)/dps
 
-SODPSREV = 1.0
-DEPDPSLIB =
+DEPDPSLIB = $(USRLIBDIR)/libdps.a
 DPSLIB =  -ldps
 
 LINTDPS = $(LINTLIBDIR)/llib-ldps.ln
 
     DPSTKLIBSRC = $(LIBSRC)/dpstk
 
-SODPSTKREV = 1.0
-DEPDPSTKLIB =
+DEPDPSTKLIB = $(USRLIBDIR)/libdpstk.a
 DPSTKLIB =  -ldpstk
 
 LINTDPSTK = $(LINTLIBDIR)/llib-ldpstk.ln
 
     PSRESLIBSRC = $(LIBSRC)/psres
 
-SOPSRESREV = 1.0
-DEPPSRESLIB =
+DEPPSRESLIB = $(USRLIBDIR)/libpsres.a
 PSRESLIB =  -lpsres
 
 LINTPSRES = $(LINTLIBDIR)/llib-lpsres.ln
@@ -582,13 +616,13 @@ LINTGLW = $(LINTLIBDIR)/llib-lGLw.ln
 
     XRENDERLIBSRC = $(LIBSRC)/Xrender
 
-SOXRENDERREV = 1.2
+SOXRENDERREV = 1.2.2
 DEPXRENDERLIB =
 XRENDERLIB =  -lXrender
 
 LINTXRENDER = $(LINTLIBDIR)/llib-lXrender.ln
 
-    XRANDRRLIBSRC = $(LIBSRC)/Xrandr
+    XRANDRLIBSRC = $(LIBSRC)/Xrandr
 
 SOXRANDRREV = 2.0
 DEPXRANDRLIB =
@@ -596,9 +630,41 @@ XRANDRLIB =  -lXrandr
 
 LINTXRANDR = $(LINTLIBDIR)/llib-lXrandr.ln
 
-   XCURSORRLIBSRC = $(LIBSRC)/Xcursor
+    XFIXESLIBSRC = $(LIBSRC)/Xfixes
 
-SOXCURSORREV = 1.0
+SOXFIXESREV = 3.0
+DEPXFIXESLIB =
+XFIXESLIB =  -lXfixes
+
+LINTXFIXES = $(LINTLIBDIR)/llib-lXfixes.ln
+
+   XDAMAGELIBSRC = $(LIBSRC)/Xdamage
+
+SOXDAMAGEREV = 1.0
+DEPXDAMAGELIB =
+XDAMAGELIB =  -lXdamage
+
+LINTXDAMAGE = $(LINTLIBDIR)/llib-lXdamage.ln
+
+XCOMPOSITELIBSRC = $(LIBSRC)/Xcomposite
+
+SOXCOMPOSITEREV = 1.0
+DEPXCOMPOSITELIB =
+XCOMPOSITELIB =  -lXcomposite
+
+LINTXCOMPOSITE = $(LINTLIBDIR)/llib-lXcomposite.ln
+
+XEVIELIBSRC = $(LIBSRC)/Xevie
+
+SOXEVIEREV = 1.0
+DEPXEVIELIB =
+XEVIELIB =  -lXevie
+
+LINTXEVIE = $(LINTLIBDIR)/llib-lXevie.ln
+
+   XCURSORLIBSRC = $(LIBSRC)/Xcursor
+
+SOXCURSORREV = 1.0.2
 DEPXCURSORLIB =
 XCURSORLIB =  -lXcursor
 
@@ -629,14 +695,16 @@ LINTXFONTCACHE = $(LINTLIBDIR)/llib-lXfontcache.ln
 
          XAUTHSRC = $(LIBSRC)/Xau
 
-DEPXAUTHLIB = $(USRLIBDIR)/libXau.a
+SOXAUTHREV = 6.0
+DEPXAUTHLIB =
 XAUTHLIB =  -lXau
 
 LINTXAUTH = $(LINTLIBDIR)/llib-lXau.ln
 
       XDMCPLIBSRC = $(LIBSRC)/Xdmcp
 
-DEPXDMCPLIB = $(USRLIBDIR)/libXdmcp.a
+SOXDMCPREV = 6.0
+DEPXDMCPLIB =
 XDMCPLIB =  -lXdmcp
 
 LINTXDMCP = $(LINTLIBDIR)/llib-lXdmcp.ln
@@ -695,11 +763,19 @@ LINTXA = $(LINTLIBDIR)/llib-lXa.ln
 
        AWIDGETSRC = $(LIBSRC)/Xaw
 
-SOXAWREV = 7.0
+SOXAWREV = 8.0
 DEPXAWLIB =
 XAWLIB =  -lXaw
 
 LINTXAW = $(LINTLIBDIR)/llib-lXaw.ln
+
+       AWIDGET7SRC = $(LIBSRC)/Xaw7
+
+SOXAW7REV = 7.0
+DEPXAW7LIB =
+XAW7LIB =  -lXaw
+
+LINTXAW7 = $(LINTLIBDIR)/llib-lXaw.ln
 
        AWIDGET6SRC = $(LIBSRC)/Xaw6
 
@@ -732,7 +808,7 @@ LINTXBSD = $(LINTLIBDIR)/llib-lXbsd.ln
 
            ICESRC = $(LIBSRC)/ICE
 
-SOICEREV = 6.3
+SOICEREV = 6.4
 DEPICELIB =
 ICELIB =  -lICE
 
@@ -803,7 +879,7 @@ LINTXPM = $(LINTLIBDIR)/llib-lXpm.ln
 
           FREETYPE2LIBSRC = $(LIBSRC)/freetype2
 
-SOFREETYPE2REV = 6.3
+SOFREETYPE2REV = 6.3.8
 DEPFREETYPE2LIB =
 FREETYPE2LIB =  -lfreetype
 
@@ -811,7 +887,7 @@ LINTFREETYPE2 = $(LINTLIBDIR)/llib-lfreetype.ln
 
 FREETYPE2INCDIR=$(INCDIR)
 
-FREETYPE2INCLUDES = -I$(FREETYPE2INCDIR) -I$(FREETYPE2INCDIR)/freetype2
+FREETYPE2INCLUDES = -I$(FREETYPE2INCDIR) -I$(FREETYPE2INCDIR)/freetype2 -I$(FREETYPE2INCDIR)/freetype2/config
 
 FREETYPE2DEFINES = -DFREETYPE2
 
@@ -836,7 +912,7 @@ LINTXFT1 = $(LINTLIBDIR)/llib-lXft.ln
 
           XFTLIBSRC = $(LIBSRC)/Xft
 
-SOXFTREV = 2.1
+SOXFTREV = 2.1.2
 DEPXFTLIB =
 XFTLIB =  -lXft
 
@@ -844,7 +920,7 @@ LINTXFT = $(LINTLIBDIR)/llib-lXft.ln
 
           FONTCONFIGLIBSRC = $(LIBSRC)/fontconfig
 
-SOFONTCONFIGREV = 1.0
+SOFONTCONFIGREV = 1.0.4
 DEPFONTCONFIGLIB =
 FONTCONFIGLIB =  -lfontconfig
 
@@ -878,7 +954,7 @@ XKBFILELIB =  -lxkbfile
 
 LINTXKBFILE = $(LINTLIBDIR)/llib-lxkbfile.ln
 
-     XKBCOMPCMD = $(BINDIR)/xkbcomp
+     XKBCOMPCMD = $(XBINDIR)/xkbcomp
 
     XKBUILIBSRC = $(LIBSRC)/xkbui
 
@@ -887,6 +963,12 @@ DEPXKBUILIB =
 XKBUILIB =  -lxkbui
 
 LINTXKBUI = $(LINTLIBDIR)/llib-lxkbui.ln
+
+EXTRAXAWREQS = $(XPLIB)
+
+EXTRAXAWCLIENTDEPLIBS = $(DEPXPLIB)
+
+EXTRAXAWCLIENTLIBS = $(XPLIB)
 
         XTRAPLIBSRC = $(LIBSRC)/XTrap
 
@@ -919,7 +1001,6 @@ LINTXTRAP = $(LINTLIBDIR)/llib-lXTrap.ln
 
 XMULIBONLY = -lXmu
 XMULIB = $(XMULIBONLY) $(XTOOLLIB) $(XLIB)
-GLXLIB := $(GLXLIB) $(XPLUGIN_LIB)
 
         CONFIGDIR = $(LIBDIR)/config
 
@@ -928,6 +1009,7 @@ GLXLIB := $(GLXLIB) $(XPLUGIN_LIB)
        LDPOSTLIBS =
      TOP_INCLUDES = -I$(INCROOT) $(TOP_X_INCLUDES)
   PROJECT_DEFINES =
+   VENDOR_DEFINES = -DXVENDORNAME='"$(VENDORNAME)"' -DXVENDORNAMESHORT='"$(VENDORNAMESHORT)"'
 
 CXXPROJECT_DEFINES =
 
@@ -936,7 +1018,7 @@ CXXPROJECT_DEFINES =
 
 LOCAL_LIBRARIES = -lm
 # CDEBUGFLAGS     = -O3
-CDEBUGFLAGS = -g -Wunused
+CDEBUGFLAGS = -g -Wunused -m32
 # CCOPTIONS = -DSYSV -DSVR4
 EXTRA_LDOPTIONS =
 EXTRA_LIBRARIES =
@@ -966,35 +1048,17 @@ install:: bmpio
 	fi
 	$(INSTALL) $(INSTALLFLAGS) $(INSTPGMFLAGS)  bmpio $(DESTDIR)$(BINDIR)/bmpio
 
-all:: bmpio.$(MANSUFFIX).html
-
-bmpio.$(MANSUFFIX).html: bmpio.$(MANNEWSUFFIX)
-	$(RM) bmpio.$(MANSUFFIX).html bmpio.$(MANSUFFIX)-html
-	$(RMAN) $(RMANOPTIONS) < bmpio.$(MANNEWSUFFIX) \
-	  > bmpio.$(MANSUFFIX)-html && $(MV) bmpio.$(MANSUFFIX)-html $@
-
-install.man:: bmpio.$(MANSUFFIX).html
-	@if [ -d $(DESTDIR)$(DOCHTMLDIR) ]; then \
-		set +x; \
-	else \
-		if [ -h $(DESTDIR)$(DOCHTMLDIR) ]; then \
-			(set -x; rm -f $(DESTDIR)$(DOCHTMLDIR)); \
-		fi; \
-		(set -x; $(MKDIRHIER) $(DESTDIR)$(DOCHTMLDIR)); \
-	fi
-	@(SUF=`expr $(MANSUFFIX) \: '\(.\)'`; \
-	 set -x; \
-	 $(INSTALL) $(INSTALLFLAGS) $(INSTMANFLAGS) bmpio.$(MANSUFFIX).html $(DESTDIR)$(DOCHTMLDIR)/bmpio.$$SUF.html)
-
-cleandir::
-	$(RM) bmpio.$(MANSUFFIX).html bmpio.$(MANSUFFIX)-html
-
 all:: bmpio.$(MANNEWSUFFIX)
 
 bmpio.$(MANNEWSUFFIX): bmpio.$(MANSRCSUFFIX)
 	$(RM) $@
-	cd `dirname bmpio` && \
-		$(LN) `basename bmpio.$(MANSRCSUFFIX)` `basename $@`
+	if test -z "$(PREPROCESSMANPAGES)" ; then \
+	   cd `dirname bmpio` && \
+	   $(LN) `basename bmpio.$(MANSRCSUFFIX)` `basename $@`; \
+	else \
+	      	     $(RAWCPP)  $(MANDEFS) $(EXTRAMANDEFS) \
+	     < bmpio.$(MANSRCSUFFIX) | sed -e '/^#  *[0-9][0-9]*  *.*$$/d' 			-e '/^#line  *[0-9][0-9]*  *.*$$/d' 			-e '/^[ 	]*XCOMM$$/s/XCOMM/#/' 			-e '/^[ 	]*XCOMM[^a-zA-Z0-9_]/s/XCOMM/#/' 			-e '/^[ 	]*XHASH/s/XHASH/#/' 			-e '/\@\@$$/s/\@\@$$/\\/' >$@; \
+	fi
 
 cleandir::
 	$(RM) bmpio.$(MANNEWSUFFIX)
@@ -1062,7 +1126,6 @@ tags::
 man_keywords::
 
 html_index::
-	$(HTMLINDEXCMD) $(DESTDIR)$(DOCHTMLDIR)
 
 clean:: cleandir
 

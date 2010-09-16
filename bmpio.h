@@ -13,10 +13,10 @@
 
 typedef struct {
 	unsigned short  bfType;
-	unsigned short  bfSize[2];
+	unsigned long   bfSize;
 	short           bfReserved1;
 	short           bfReserved2;
-	unsigned short   bfOffBits[2];
+	unsigned long   bfOffBits;
 	} BITMAPFILEHEADER;
 	
 typedef BITMAPFILEHEADER*  bmpFileHPtr;
