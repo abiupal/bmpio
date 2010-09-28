@@ -17,7 +17,7 @@ typedef struct {
 	short           bfReserved1;
 	short           bfReserved2;
 	unsigned long   bfOffBits;
-	} BITMAPFILEHEADER;
+} __attribute__ ((packed)) BITMAPFILEHEADER;
 	
 typedef BITMAPFILEHEADER*  bmpFileHPtr;
 
@@ -33,25 +33,25 @@ typedef struct {
     unsigned long    biYPelsPerMeter;
     unsigned long    biClrUsed;
     unsigned long    biClrImportant;
-    } BITMAPINFOHEADER;
+    } __attribute__ ((packed)) BITMAPINFOHEADER;
 
 typedef BITMAPINFOHEADER*  bmpInfoHPtr;
 
 typedef struct {
 	BITMAPFILEHEADER fh;
 	BITMAPINFOHEADER ih;
-} BITMAPHEADERS;
+} __attribute__ ((packed)) BITMAPHEADERS;
 
 typedef struct {
     unsigned char rgbBlue;
     unsigned char rgbGreen;
     unsigned char rgbRed;
     unsigned char rgbReserved;
-} BITMAP_RGBQUAD;
+} __attribute__ ((packed)) BITMAP_RGBQUAD;
 
 typedef struct {
 	BITMAP_RGBQUAD pal[256];
-} BITMAP_PAL256;
+} __attribute__ ((packed)) BITMAP_PAL256;
 
 #endif
 

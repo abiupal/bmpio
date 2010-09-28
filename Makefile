@@ -2,7 +2,7 @@
 # $Xorg: imake.c,v 1.6 2001/02/09 02:03:15 xorgcvs Exp $
 
 # ----------------------------------------------------------------------
-# Makefile generated from "Imake.tmpl" and </tmp/IIf.nvKpIi>
+# Makefile generated from "Imake.tmpl" and </tmp/IIf.jTkQEX>
 # $Xorg: Imake.tmpl,v 1.4 2000/08/17 19:41:46 cpqbld Exp $
 # $XdotOrg: util/cf/Imake.tmpl,v 1.17 2006/04/15 15:55:25 herrb Exp $
 #
@@ -37,7 +37,7 @@ all::
 # $XdotOrg: util/cf/darwin.cf,v 1.8 2005/04/01 01:22:07 torrey Exp $
 # platform:  $XFree86: xc/config/cf/darwin.cf,v 1.50 2004/01/20 23:54:50 torrey Exp $
 
-# operating system:  Darwin (10.4.0)
+# operating system:  Darwin (10.5.0)
 
    PROJ_BUILD = xcodebuild
 

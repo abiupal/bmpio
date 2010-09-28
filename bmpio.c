@@ -19,7 +19,6 @@
 
 int CPU;
 
-
 void chk_cpu()
 {
 	int i = 1;
@@ -45,13 +44,25 @@ short	intel_stos(short src)
 	if(CPU) { return(src) ; }
 	dst = ((src<<8)&0xff00)+((src>>8)&0xff) ;
 	return(dst) ;
- }
+}
+
+void error_args()
+{
+	fprintf( stderr, "-e:extension, max:8, default:\'.bmp\'\n" );
+	fprintf( stderr, "-p:read/write bitmap path\n" );
+	fprintf( stderr, "-r:reading, STDUT:tmpdata.\n" );
+	fprintf( stderr, "-w:writing, STDIN:tmpdata.\n" );
+	fprintf( stderr, "-d:get dot info, STDOUT:INDEX,POS(X,Y).\n" );
+	fprintf( stderr, "\t \'dot\' is arounded same color.\n" );
+	
+	exit( 1 );
+}
 
 int main( int argc, char *argv[] )
 {
-	int mode, i, j, cbit;
+	int mode, i, j, cbit, reverseHeight = 0;
 	char path[512], str[512], ext[8], *p;
-	unsigned char *b24;
+	unsigned char *b24, *pb[3];
 	TMP_RGBDATA	tmp;
 	FILE	*fp;
 	BITMAPFILEHEADER	bfh;
@@ -67,9 +78,10 @@ int main( int argc, char *argv[] )
 		{
 			switch( argv[i][1] )
 			{
+			  case 'd':
+				mode = 4; break;
 			  case 'e':
 				strncpy( ext, &argv[i][2], 8 ); break;
-				
 			  case 'p':
 				strcpy( path, &argv[i][2] ); break;
 			  case 'w':
@@ -222,7 +234,7 @@ int main( int argc, char *argv[] )
 			}
 		}
 	}
-	else if( mode == 3 )
+	else if( mode == 3 || mode == 4 )
 	{   /* 読込み */
 		fp = fopen( path, "rb" );
 		if( fp == NULL ) return 1;
@@ -249,7 +261,7 @@ int main( int argc, char *argv[] )
 			return 1;
 		}
 		bfh.bfOffBits = intel_ltol( bfh.bfOffBits );
-		offset = i;
+		offset = bfh.bfOffBits;
 		
 		/* InfoHeader */
 		i = intel_stos( bih.biPlanes );
@@ -266,11 +278,17 @@ int main( int argc, char *argv[] )
 		}
 		/* Bitmapヘッダ部、読込処理終了 */
 		
+		
 		/*
 		// ヘッダ部 */
 		memset( &tmp, 0, sizeof(tmp) );
 		tmp.w = intel_ltol( bih.biWidth );
 		tmp.h = intel_ltol( bih.biHeight );
+		if( tmp.h < 0 )
+		{
+			reverseHeight = 1;
+			tmp.h *= -1;
+		}
 		if( i == 8 )
 		{
 			tmp.pal = intel_ltol( bih.biClrUsed );
@@ -281,8 +299,11 @@ int main( int argc, char *argv[] )
 				perror( "fread(rgb):" );
 				goto BITMAPERR;
 			}
-			fprintf( stdout, "x:0\ny:0\nw:%d\nh:%d\np:%d\n",
+			if( mode == 3 )
+			{
+				fprintf( stdout, "x:0\ny:0\nw:%d\nh:%d\np:%d\n",
 					tmp.w,tmp.h,tmp.pal );
+			}
 			/*
 			// パレット部 */
 			tmp.max = tmp.pal * 3;
@@ -294,12 +315,16 @@ int main( int argc, char *argv[] )
 					case 1: i = rgb[ (tmp.cnt / 3) ].rgbGreen ; break;
 					case 2: i = rgb[ (tmp.cnt / 3) ].rgbBlue ; break;
 				}
-				fputc( i,stdout );
+				if( mode == 3 )
+					fputc( i,stdout );
 			}
 			
 			/*
 			// データ部 */
 			fseek( fp, offset, SEEK_SET );
+			if( mode == 4 )
+				goto MODE_4;
+			
 			tmp.cntw = 0;
 			for( tmp.cnt = 0 ; (i = fgetc( fp )) != EOF;  )
 			{
@@ -321,6 +346,12 @@ int main( int argc, char *argv[] )
 		}
 		else /* 24 bits */
 		{
+			if( mode == 4 )
+			{
+				fprintf( stderr, "Not supported mode 4!!\n" );
+				exit( 1 );
+			}
+			
 			b24 = p24 = NULL;
 			b24 = malloc( tmp.w * 3 );
 			p24Size = 2048;
@@ -422,8 +453,48 @@ int main( int argc, char *argv[] )
 			if( p24 != NULL ) free( p24 );
 		}
 	}
-	else return 1;
-	
+	else if( mode == 4 )
+	{
+	  MODE_4:
+		tmp.cnt = (tmp.w + 3) & ~3;
+		tmp.max = tmp.cnt * tmp.h ;
+		b24 = malloc( tmp.max );
+		if( b24 == NULL )
+		{
+			fprintf( stderr, "Not alloc:%d\n",tmp.max );
+			goto END_MODE4;
+		}
+		memset( b24, 0, tmp.max );
+		if( fread( b24, 1, tmp.max, fp ) != tmp.max )
+		{
+			perror( "fread(b24)" );
+			goto END_MODE4;
+			
+		}
+		for( j = 1; j < (tmp.h -1); j++ )
+		{
+			pb[0] = b24 + tmp.cnt * (j -1);
+			pb[1] = b24 + tmp.cnt * j;
+			pb[2] = b24 + tmp.cnt * (j +1);
+			for( i = 1; i < (tmp.w -1); i++ )
+			{
+				if( pb[0][i -1] == pb[0][i] && pb[0][i] == pb[0][i +1] &&
+					pb[0][i -1] == pb[1][i -1] && pb[1][i -1] == pb[1][i +1] &&
+					pb[1][i -1] == pb[2][i -1] && pb[1][i] != pb[0][i] &&
+					pb[2][i -1] == pb[2][i] && pb[2][i] == pb[2][i +1] )
+				{
+					printf( "%d, %d, %d\n", pb[1][i], i, j );
+				}
+				else continue;
+			}
+		}
+	  END_MODE4:
+		if( b24 ) free( b24 );
+	}
+	else
+	{
+		error_args();
+	}
 	fclose( fp );
 	
 	return 0;
